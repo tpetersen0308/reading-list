@@ -1,3 +1,6 @@
+# Reading List
+[![Build Status](https://travis-ci.com/tpetersen0308/http-server.svg?branch=master)](https://travis-ci.com/tpetersen0308/http-server)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
