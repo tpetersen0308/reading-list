@@ -16,7 +16,7 @@ describe('MockApiHandler', () => {
         },
         {
           volumeInfo: {
-            title: "test book 1",
+            title: "test book 2",
             authors: ["some author", "some other author"],
             imageLinks: {
               thumbnail: "image-thumbnail"
@@ -35,9 +35,11 @@ describe('MockApiHandler', () => {
 
   it("can mock API GET requests that return errors", async () => {
     const error: GoogleBooksResponse = {
-      errors: {
-        message: "Invalid Fetch"
-      }
+      errors: [
+        {
+          message: "Invalid Fetch"
+        }
+      ]
     };
 
     const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(error);
