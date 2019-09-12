@@ -1,8 +1,8 @@
 import React from "react";
 import SearchPage from "./SearchPage";
 import { cleanup, render, fireEvent, wait } from "@testing-library/react";
-import MockGoogleApiHandler from "../../utilities/ApiHandler/mockGoogleApiHandler";
-import { GoogleBooksResponse } from "../../utilities/ApiHandler/googleBooksResponse";
+import MockGoogleApiHandler from "../../utilities/ApiHandler/MockGoogleApiHandler";
+import { GoogleBooksResponse } from "../../utilities/ApiHandler/GoogleBooksResponse";
 
 describe("SearchPage", () => {
   afterEach(cleanup);
@@ -36,6 +36,35 @@ describe("SearchPage", () => {
     getByText(/some other author/i);
   });
 
+  it("can get search results by author", async () => {
+    const data: GoogleBooksResponse = {
+      items: [
+        {
+          volumeInfo: {
+            title: "test book 1",
+            authors: ["some author", "some other author"],
+            imageLinks: {
+              thumbnail: "image-thumbnail"
+            }
+          }
+        },
+      ]
+    };
+
+    const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(data);
+    const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} />);
+    const input = getByLabelText(/author/i) as HTMLInputElement;
+
+    fireEvent.change(input, { target: { value: "some author" } });
+    fireEvent.click(getByText("Search"));
+
+    await wait(() => {
+      getByText(/test book 1/i);
+    })
+    getByText(/some author/i);
+    getByText(/some other author/i);
+  });
+
   it("can handle errors", async () => {
     const error: GoogleBooksResponse = {
       errors: [
@@ -52,7 +81,7 @@ describe("SearchPage", () => {
     fireEvent.click(getByText("Search"));
 
     await wait(() => {
-      getByText(/test error message/i);
+      getByText(/error: test error message/i);
     })
   })
 

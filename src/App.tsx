@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import SearchPage from "./components/search_page/SearchPage";
-import GoogleApiHandler from "./utilities/ApiHandler/googleApiHandler";
+import GoogleApiHandler from "./utilities/ApiHandler/GoogleApiHandler";
 import { Card } from "react-bootstrap";
 
 const apiHandler: GoogleApiHandler = new GoogleApiHandler();

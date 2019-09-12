@@ -7,29 +7,37 @@ import { ErrorsListProps } from "../UI/ErrorsListProps";
 import { BooksListProps } from "../books_list/BooksListProps";
 import { SearchPageProps } from "./SearchPageProps";
 import { FormControlProps } from "react-bootstrap";
-import { GoogleBooksResponse, GoogleBooksItem } from "../../utilities/ApiHandler/googleBooksResponse";
+import { GoogleBooksResponse, GoogleBooksItem } from "../../utilities/ApiHandler/GoogleBooksResponse";
 import "./SearchPage.css";
 
 const SearchPage: React.SFC<SearchPageProps> = (props: SearchPageProps) => {
-  const [title, setTitle] = useState<string>("");
+  const [searchTerms, setSearchTerms] = useState<{ title: string, author: string }>({ title: "", author: "" });
   const [errors, setErrors] = useState<ErrorsListProps | null>(null);
   const [searchResults, setSearchResults] = useState<BooksListProps | null>(null);
 
-  const handleTitleChange = (event: React.FormEvent<FormControlProps>) => {
+  const handleTitleChange = (event: React.FormEvent<FormControlProps>): void => {
     const { value } = event.target as HTMLInputElement;
-    setTitle(value);
+    setSearchTerms({ ...searchTerms, title: value });
+  }
+
+  const handleAuthorChange = (event: React.FormEvent<FormControlProps>): void => {
+    const { value } = event.target as HTMLInputElement;
+    setSearchTerms({ ...searchTerms, author: value });
   }
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     event.preventDefault();
 
-    if (checkSearchTerms()) {
+    if (checkSearchParameters()) {
       fetchBooks();
     }
   }
 
-  const checkSearchTerms = (): boolean => {
-    const searchIsValid: boolean = title.replace(/\s/g, "").length > 0;
+  const checkSearchParameters = (): boolean => {
+    const searchIsValid: boolean = Object.values(searchTerms).some(param => {
+      return param.replace(/\s/g, "").length > 0;
+    });
+
     if (!searchIsValid) {
       setErrors({ errors: [{ message: "You must include a search term." }] })
     }
@@ -37,7 +45,7 @@ const SearchPage: React.SFC<SearchPageProps> = (props: SearchPageProps) => {
   }
 
   const fetchBooks = async (): Promise<GoogleBooksResponse> => {
-    const { items, errors } = await props.apiHandler.get(title);
+    const { items, errors } = await props.apiHandler.get(searchTerms);
     if (items) {
       setSearchResults(formatSearchResults(items))
       setErrors(null);
@@ -63,15 +71,8 @@ const SearchPage: React.SFC<SearchPageProps> = (props: SearchPageProps) => {
   return (
     <div id="search-page">
       {errors && <ErrorsList {...errors} />}
-      <div id="search-form">
-        <strong>Use the search below to browse Google Books</strong>
-        <br />
-        <br />
-        <Search submit={handleSubmit} handleTitleChange={handleTitleChange} />
-      </div>
-      {searchResults &&
-        <BooksList {...searchResults} />
-      }
+      <Search submit={handleSubmit} handleTitleChange={handleTitleChange} handleAuthorChange={handleAuthorChange} />
+      {searchResults && <BooksList {...searchResults} />}
     </div>
   )
 }

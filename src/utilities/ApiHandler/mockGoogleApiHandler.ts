@@ -1,4 +1,5 @@
-import { GoogleBooksResponse } from './googleBooksResponse';
+import { GoogleBooksResponse } from './GoogleBooksResponse';
+import { GoogleQueryParams } from './GoogleQueryParams';
 
 export default class MockGoogleApiHandler {
   data: GoogleBooksResponse;
@@ -7,7 +8,11 @@ export default class MockGoogleApiHandler {
     this.data = data;
   }
 
-  async get(title: string): Promise<GoogleBooksResponse> {
+  async get(searchTerms: GoogleQueryParams): Promise<GoogleBooksResponse> {
     return Promise.resolve(this.data);
+  }
+
+  formatQueryParams(searchTerms: GoogleQueryParams): string {
+    return "some+title+intitle+some+author+inauthor";
   }
 }

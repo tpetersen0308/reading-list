@@ -1,5 +1,6 @@
-import MockGoogleApiHandler from './mockGoogleApiHandler';
-import { GoogleBooksResponse } from './googleBooksResponse';
+import MockGoogleApiHandler from './MockGoogleApiHandler';
+import { GoogleBooksResponse } from './GoogleBooksResponse';
+import { GoogleQueryParams } from './GoogleQueryParams';
 
 describe('MockApiHandler', () => {
   it("can mock API GET requests", async () => {
@@ -27,8 +28,8 @@ describe('MockApiHandler', () => {
     };
 
     const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(data);
-    const path: string = "/api/lists";
-    const result: GoogleBooksResponse = await apiHandler.get(path);
+    const searchTerms: GoogleQueryParams = { title: "some title", author: "some author" }
+    const result: GoogleBooksResponse = await apiHandler.get(searchTerms);
 
     expect(result).toEqual(data);
   });
@@ -37,14 +38,14 @@ describe('MockApiHandler', () => {
     const error: GoogleBooksResponse = {
       errors: [
         {
-          message: "Invalid Fetch"
+          message: "invalid fetch"
         }
       ]
     };
 
     const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(error);
-    const path: string = "/api/lists";
-    const result: GoogleBooksResponse = await apiHandler.get(path);
+    const searchTerms: GoogleQueryParams = { title: "some title", author: "some author" }
+    const result: GoogleBooksResponse = await apiHandler.get(searchTerms);
 
     expect(result).toEqual(error);
   })
