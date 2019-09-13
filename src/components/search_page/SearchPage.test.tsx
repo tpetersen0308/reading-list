@@ -1,8 +1,8 @@
 import React from "react";
 import SearchPage from "./SearchPage";
 import { cleanup, render, fireEvent, wait } from "@testing-library/react";
-import MockGoogleApiHandler from "../../utilities/ApiHandler/MockGoogleApiHandler";
-import { GoogleBooksResponse } from "../../utilities/ApiHandler/GoogleBooksResponse";
+import MockApiHandler from "../../utilities/api_handler/MockApiHandler";
+import { GoogleBooksResponse } from "../../utilities/api_handler/GoogleBooksResponse";
 
 describe("SearchPage", () => {
   afterEach(cleanup);
@@ -22,7 +22,7 @@ describe("SearchPage", () => {
       ]
     };
 
-    const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(data);
+    const apiHandler: MockApiHandler = new MockApiHandler(data);
     const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} />);
     const input = getByLabelText(/title/i) as HTMLInputElement;
 
@@ -51,7 +51,7 @@ describe("SearchPage", () => {
       ]
     };
 
-    const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(data);
+    const apiHandler: MockApiHandler = new MockApiHandler(data);
     const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} />);
     const input = getByLabelText(/author/i) as HTMLInputElement;
 
@@ -74,7 +74,7 @@ describe("SearchPage", () => {
       ]
     };
 
-    const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(error);
+    const apiHandler: MockApiHandler = new MockApiHandler(error);
     const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} />);
     const input = getByLabelText(/title/i) as HTMLInputElement;
     fireEvent.change(input, { target: { value: "test book 1" } });
@@ -86,7 +86,7 @@ describe("SearchPage", () => {
   })
 
   it("does not allow empty searches", () => {
-    const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler({});
+    const apiHandler: MockApiHandler = new MockApiHandler({});
     const { getByText } = render(<SearchPage apiHandler={apiHandler} />);
     fireEvent.click(getByText("Search"));
 

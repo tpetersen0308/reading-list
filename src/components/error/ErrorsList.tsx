@@ -2,7 +2,7 @@ import React from "react";
 import Error from "./Error";
 import { ErrorsListProps } from "./ErrorsListProps";
 
-const ErrorsList: React.SFC<ErrorsListProps> = (props: ErrorsListProps) => {
+const ErrorsList: React.FC<ErrorsListProps> = (props: ErrorsListProps) => {
   return (
     <div className="errors-list">
       {props.errors.map(error => <Error {...error} />)}

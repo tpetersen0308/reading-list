@@ -1,4 +1,4 @@
-import { ErrorProps } from "../../components/UI/ErrorProps";
+import { ErrorProps } from "../../components/error/ErrorProps";
 
 export interface GoogleBooksResponse {
   items?:

@@ -1,4 +1,4 @@
-import MockGoogleApiHandler from './MockGoogleApiHandler';
+import MockApiHandler from './MockApiHandler';
 import { GoogleBooksResponse } from './GoogleBooksResponse';
 import { GoogleQueryParams } from './GoogleQueryParams';
 
@@ -27,9 +27,9 @@ describe('MockApiHandler', () => {
       ]
     };
 
-    const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(data);
+    const apiHandler: MockApiHandler = new MockApiHandler(data);
     const searchTerms: GoogleQueryParams = { title: "some title", author: "some author" }
-    const result: GoogleBooksResponse = await apiHandler.get(searchTerms);
+    const result: GoogleBooksResponse = await apiHandler.getBooks(searchTerms);
 
     expect(result).toEqual(data);
   });
@@ -43,9 +43,9 @@ describe('MockApiHandler', () => {
       ]
     };
 
-    const apiHandler: MockGoogleApiHandler = new MockGoogleApiHandler(error);
+    const apiHandler: MockApiHandler = new MockApiHandler(error);
     const searchTerms: GoogleQueryParams = { title: "some title", author: "some author" }
-    const result: GoogleBooksResponse = await apiHandler.get(searchTerms);
+    const result: GoogleBooksResponse = await apiHandler.getBooks(searchTerms);
 
     expect(result).toEqual(error);
   })

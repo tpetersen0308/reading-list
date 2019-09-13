@@ -2,15 +2,15 @@ import React from "react";
 import { useState } from "react";
 import Search from "../search/Search";
 import BooksList from "../books_list/BooksList";
-import ErrorsList from "../UI/ErrorsList";
-import { ErrorsListProps } from "../UI/ErrorsListProps";
+import ErrorsList from "../error/ErrorsList";
+import { ErrorsListProps } from "../error/ErrorsListProps";
 import { BooksListProps } from "../books_list/BooksListProps";
 import { SearchPageProps } from "./SearchPageProps";
 import { FormControlProps } from "react-bootstrap";
-import { GoogleBooksResponse, GoogleBooksItem } from "../../utilities/ApiHandler/GoogleBooksResponse";
+import { GoogleBooksResponse, GoogleBooksItem } from "../../utilities/api_handler/GoogleBooksResponse";
 import "./SearchPage.css";
 
-const SearchPage: React.SFC<SearchPageProps> = (props: SearchPageProps) => {
+const SearchPage: React.FC<SearchPageProps> = (props: SearchPageProps) => {
   const [searchTerms, setSearchTerms] = useState<{ title: string, author: string }>({ title: "", author: "" });
   const [errors, setErrors] = useState<ErrorsListProps | null>(null);
   const [searchResults, setSearchResults] = useState<BooksListProps | null>(null);
@@ -45,7 +45,7 @@ const SearchPage: React.SFC<SearchPageProps> = (props: SearchPageProps) => {
   }
 
   const fetchBooks = async (): Promise<GoogleBooksResponse> => {
-    const { items, errors } = await props.apiHandler.get(searchTerms);
+    const { items, errors } = await props.apiHandler.getBooks(searchTerms);
     if (items) {
       setSearchResults(formatSearchResults(items))
       setErrors(null);

@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { SearchProps } from "./SearchProps";
 
-const Search: React.SFC<SearchProps> = (props: SearchProps) => {
+const Search: React.FC<SearchProps> = (props: SearchProps) => {
   return (
     <div id="search-form">
       <strong>Use the search below to browse Google Books</strong>

@@ -1,7 +1,23 @@
 # Reading List
-[![Build Status](https://travis-ci.com/tpetersen0308/http-server.svg?branch=master)](https://travis-ci.com/tpetersen0308/http-server)
+[![Build Status](https://travis-ci.com/tpetersen0308/reading-list.svg?branch=master)](https://travis-ci.com/tpetersen0308/reading-list)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Run the server
+Follow the instructions to clone and run the server [here](https://github.com/tpetersen0308/reading-list-api)
+
+## Obtain credentials
+Follow the instructions on the [Google developer console](https://console.developers.google.com/) to obtain a client ID,
+and add it to a gitignored `config.json` file in the `src` directory, where you should also specify 
+the following urls (defaults provided):
+```
+{
+  "GOOGLE_CLIENT_ID": "<YOUR GOOGLE CLIENT ID>",
+  "GOOGLE_AUTH_CALLBACK_URL": "http://localhost:5000/api/auth/google",
+  "API_URL": "http://localhost:5000/api",
+  "GOOGLE_BOOKS_URL": "https://www.googleapis.com/books/v1"
+}
+```
 
 ## Available Scripts
 
