@@ -1,4 +1,4 @@
-export interface BookProps {
+export interface IBook {
   title: string,
   authors: string[],
   image?: string

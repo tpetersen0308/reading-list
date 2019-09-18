@@ -2,13 +2,13 @@ import React from "react";
 import SearchPage from "./SearchPage";
 import { cleanup, render, fireEvent, wait } from "@testing-library/react";
 import MockApiHandler from "../../utilities/api_handler/MockApiHandler";
-import { GoogleBooksResponse } from "../../utilities/api_handler/GoogleBooksResponse";
+import { IApiResponse } from "../../types/IApiResponse";
 
 describe("SearchPage", () => {
   afterEach(cleanup);
 
   it("can get search results by title", async () => {
-    const data: GoogleBooksResponse = {
+    const data: IApiResponse["googleBooks"] = {
       items: [
         {
           volumeInfo: {
@@ -37,7 +37,7 @@ describe("SearchPage", () => {
   });
 
   it("can get search results by author", async () => {
-    const data: GoogleBooksResponse = {
+    const data: IApiResponse["googleBooks"] = {
       items: [
         {
           volumeInfo: {
@@ -66,7 +66,7 @@ describe("SearchPage", () => {
   });
 
   it("can handle errors", async () => {
-    const error: GoogleBooksResponse = {
+    const error: IApiResponse["googleBooks"] = {
       errors: [
         {
           message: "test error message",
@@ -81,7 +81,7 @@ describe("SearchPage", () => {
     fireEvent.click(getByText("Search"));
 
     await wait(() => {
-      getByText(/error: test error message/i);
+      getByText(/test error message/i);
     })
   })
 
@@ -90,6 +90,6 @@ describe("SearchPage", () => {
     const { getByText } = render(<SearchPage apiHandler={apiHandler} />);
     fireEvent.click(getByText("Search"));
 
-    getByText(/error: you must include a search term/i);
+    getByText(/you must include a search term/i);
   })
 })

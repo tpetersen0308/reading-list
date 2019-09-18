@@ -1,8 +1,7 @@
-import { FormControlProps } from "react-bootstrap";
-import React from "react";
+import { IEvent } from "../../types/IEvent";
 
 export interface SearchProps {
-  submit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-  handleTitleChange: (event: React.FormEvent<FormControlProps>) => void,
-  handleAuthorChange: (event: React.FormEvent<FormControlProps>) => void,
+  submit: (event: IEvent["buttonEvent"]) => void,
+  handleTitleChange: (event: IEvent["formEvent"]) => void,
+  handleAuthorChange: (event: IEvent["formEvent"]) => void,
 }

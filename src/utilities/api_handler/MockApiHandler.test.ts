@@ -1,10 +1,11 @@
 import MockApiHandler from './MockApiHandler';
-import { GoogleBooksResponse } from './GoogleBooksResponse';
-import { GoogleQueryParams } from './GoogleQueryParams';
+import { IReadingList } from '../../types/IReadingList';
+import { IApiResponse } from '../../types/IApiResponse';
+import { IGoogleBooksQuery } from '../../types/IGoogleBooksQuery';
 
 describe('MockApiHandler', () => {
   it("can mock API GET requests", async () => {
-    const data: GoogleBooksResponse = {
+    const data: IApiResponse["googleBooks"] = {
       items: [
         {
           volumeInfo: {
@@ -28,14 +29,32 @@ describe('MockApiHandler', () => {
     };
 
     const apiHandler: MockApiHandler = new MockApiHandler(data);
-    const searchTerms: GoogleQueryParams = { title: "some title", author: "some author" }
-    const result: GoogleBooksResponse = await apiHandler.getBooks(searchTerms);
+    const searchTerms: IGoogleBooksQuery = { title: "some title", author: "some author" }
+    const result: IApiResponse["googleBooks"] = await apiHandler.getBooks(searchTerms);
 
     expect(result).toEqual(data);
   });
 
+  it("can mock API POST requests", async () => {
+    const readingList: IReadingList = {
+      title: "test reading list",
+      books: [
+        {
+          title: "test book title",
+          authors: ["some author", "some other author"],
+          image: "test image"
+        }
+      ]
+    };
+
+    const apiHandler: MockApiHandler = new MockApiHandler(readingList);
+    const result: IApiResponse["readingList"] = await apiHandler.post("/test-path", readingList);
+
+    expect(result).toEqual(readingList);
+  })
+
   it("can mock API GET requests that return errors", async () => {
-    const error: GoogleBooksResponse = {
+    const error: IApiResponse["googleBooks"] = {
       errors: [
         {
           message: "invalid fetch"
@@ -44,8 +63,8 @@ describe('MockApiHandler', () => {
     };
 
     const apiHandler: MockApiHandler = new MockApiHandler(error);
-    const searchTerms: GoogleQueryParams = { title: "some title", author: "some author" }
-    const result: GoogleBooksResponse = await apiHandler.getBooks(searchTerms);
+    const searchTerms: IGoogleBooksQuery = { title: "some title", author: "some author" }
+    const result: IApiResponse["googleBooks"] = await apiHandler.getBooks(searchTerms);
 
     expect(result).toEqual(error);
   })

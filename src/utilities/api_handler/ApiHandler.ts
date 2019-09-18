@@ -1,21 +1,35 @@
 import axios from 'axios';
-import { GoogleBooksResponse } from './GoogleBooksResponse';
-import { GoogleQueryParams } from './GoogleQueryParams';
-import { GoogleUserResponse } from './GoogleUserResponse';
 import config from "../../config.json";
+import { IReadingList } from '../../types/IReadingList';
+import { IApiResponse } from '../../types/IApiResponse';
+import { IGoogleBooksQuery } from "../../types/IGoogleBooksQuery";
 
 export default class ApiHandler {
-  async get(path: string): Promise<string> {
-    return axios.get(config.API_URL + path)
+  async get(path: string): Promise<IApiResponse["readingList"]> {
+    return axios.get(config.API_URL + path, {
+      withCredentials: true
+    })
       .then(response => {
         return response.data
       })
       .catch(error => {
-        return error.response.data.error;
+        return error.message;
       });
   }
 
-  async getUser(tokenId: string): Promise<GoogleUserResponse> {
+  async post(path: string, data: IReadingList): Promise<IApiResponse["readingList"]> {
+    return axios.post(config.API_URL + path, data, {
+      withCredentials: true
+    })
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        return { error: { message: error.message } };
+      })
+  }
+
+  async getUser(tokenId: string): Promise<IApiResponse["readingList"]> {
     return axios.post(config.GOOGLE_AUTH_CALLBACK_URL, { tokenId: tokenId }, {
       withCredentials: true,
     })
@@ -27,7 +41,7 @@ export default class ApiHandler {
       });
   }
 
-  async getBooks(searchTerms: GoogleQueryParams): Promise<GoogleBooksResponse> {
+  async getBooks(searchTerms: IGoogleBooksQuery): Promise<IApiResponse["googleBooks"]> {
     const queryParams: string = this.formatQueryParams(searchTerms);
     const path: string = `/volumes?q=${queryParams}&orderBy=relevance&fields=kind,items(volumeInfo/title,volumeInfo/authors,volumeInfo/imageLinks/thumbnail)`;
 
@@ -40,7 +54,7 @@ export default class ApiHandler {
       });
   }
 
-  formatQueryParams(searchTerms: GoogleQueryParams): string {
+  formatQueryParams(searchTerms: IGoogleBooksQuery): string {
     let queryParams: string[] = [];
     const { title, author } = searchTerms;
     if (title.length > 0) {

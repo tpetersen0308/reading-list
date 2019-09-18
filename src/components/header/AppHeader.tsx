@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card } from "react-bootstrap";
 import Login from "../login/Login";
 import UserMenu from "../user_menu/UserMenu";
 import "./AppHeader.css";
 import { AppHeaderProps, UnauthenticatedHeaderProps, AuthenticatedHeaderProps } from "./AppHeaderProps";
-import { ErrorsListProps } from "../error/ErrorsListProps";
-import ErrorsList from "../error/ErrorsList";
 
 const BasicHeader: React.FC = ({ children }) => (
   <Card.Header id="app-header" as="h2">
@@ -30,17 +28,13 @@ const UnauthenticatedHeader: React.FC<UnauthenticatedHeaderProps> = ({ setUser, 
   )
 }
 
-const AppHeader: React.FC<AppHeaderProps> = (props: AppHeaderProps) => {
-  const [user, setUser] = useState<AppHeaderProps["user"] | null>(props.user);
-  const [errors, setErrors] = useState<ErrorsListProps | null>(null);
-
+const AppHeader: React.FC<AppHeaderProps> = ({ apiHandler, user, setUser, setErrors }) => {
   return (
     <>
       {user ?
-        <AuthenticatedHeader user={user} setUser={setUser} apiHandler={props.apiHandler} />
+        <AuthenticatedHeader user={user} setUser={setUser} apiHandler={apiHandler} />
         :
-        <UnauthenticatedHeader setUser={setUser} apiHandler={props.apiHandler} setErrors={setErrors} />}
-      {errors && <ErrorsList {...errors} />}
+        <UnauthenticatedHeader setUser={setUser} apiHandler={apiHandler} setErrors={setErrors} />}
     </>
   )
 }

@@ -1,11 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
-import { AppHeaderProps } from "../header/AppHeaderProps";
 import ApiHandler from "../../utilities/api_handler/ApiHandler";
+import { IUser } from "../../types/IUser";
 
 export interface UserMenuProps {
-  user: {
-    avatar: string
-  } | null,
-  setUser: Dispatch<SetStateAction<AppHeaderProps["user"] | null>>,
+  user: IUser["user"],
+  setUser: IUser["setUser"],
   apiHandler: ApiHandler
 }

@@ -1,0 +1,21 @@
+.error{
+  background-color: rgb(250, 230, 228);
+  color: rgb(236, 82, 71);
+  margin: 20px;
+  font-weight: 600;
+  padding: 10px;
+  grid-column: 1 / -1;
+  justify-content: stretch;
+  text-transform: capitalize;
+}
+
+.success{
+  background-color: rgb(220, 250, 224);
+  color: rgb(117, 195, 128);
+  margin: 20px;
+  font-weight: 600;
+  padding: 10px;
+  grid-column: 1 / -1;
+  justify-content: stretch;
+  text-transform: capitalize;
+}

@@ -1,0 +1,10 @@
+.book-card-group {
+  margin: auto;
+  margin-bottom: 2em;
+  width: 65%;
+  float: center;
+}
+
+.book-info-card {
+  padding: 0.5em;
+}

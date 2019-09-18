@@ -1,6 +1,6 @@
-import { GoogleBooksResponse } from './GoogleBooksResponse';
-import { GoogleQueryParams } from './GoogleQueryParams';
-import { GoogleUserResponse } from './GoogleUserResponse';
+import { IReadingList } from '../../types/IReadingList';
+import { IApiResponse } from '../../types/IApiResponse';
+import { IGoogleBooksQuery } from '../../types/IGoogleBooksQuery';
 
 export default class MockApiHandler {
   data: any;
@@ -13,15 +13,19 @@ export default class MockApiHandler {
     return Promise.resolve(this.data);
   }
 
-  async getBooks(searchTerms: GoogleQueryParams): Promise<GoogleBooksResponse> {
+  async post(path: string, data: IReadingList): Promise<IApiResponse["readingList"]> {
     return Promise.resolve(this.data);
   }
 
-  async getUser(tokenId: string): Promise<GoogleUserResponse> {
+  async getBooks(searchTerms: IGoogleBooksQuery): Promise<IApiResponse["googleBooks"]> {
     return Promise.resolve(this.data);
   }
 
-  formatQueryParams(searchTerms: GoogleQueryParams): string {
+  async getUser(tokenId: string): Promise<IApiResponse["readingList"]> {
+    return Promise.resolve(this.data);
+  }
+
+  formatQueryParams(searchTerms: IGoogleBooksQuery): string {
     return "some+title+intitle+some+author+inauthor";
   }
 }
