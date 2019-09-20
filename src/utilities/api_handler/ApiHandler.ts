@@ -3,6 +3,7 @@ import config from "../../config.json";
 import { IReadingList } from '../../types/IReadingList';
 import { IApiResponse } from '../../types/IApiResponse';
 import { IGoogleBooksQuery } from "../../types/IGoogleBooksQuery";
+import { IBook } from '../../types/IBook.js';
 
 export default class ApiHandler {
   async get(path: string): Promise<IApiResponse["readingList"]> {
@@ -17,8 +18,20 @@ export default class ApiHandler {
       });
   }
 
-  async post(path: string, data: IReadingList): Promise<IApiResponse["readingList"]> {
+  async post(path: string, data: IReadingList["readingList"]): Promise<IApiResponse["readingList"]> {
     return axios.post(config.API_URL + path, data, {
+      withCredentials: true
+    })
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        return { error: { message: error.message } };
+      })
+  }
+
+  async put(path: string, data: IBook): Promise<IApiResponse["readingList"]> {
+    return axios.put(config.API_URL + path, data, {
       withCredentials: true
     })
       .then(response => {

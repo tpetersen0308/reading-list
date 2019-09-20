@@ -36,7 +36,7 @@ describe('MockApiHandler', () => {
   });
 
   it("can mock API POST requests", async () => {
-    const readingList: IReadingList = {
+    const readingList: IReadingList["readingList"] = {
       title: "test reading list",
       books: [
         {

@@ -3,7 +3,7 @@ import { IUser } from "../../types/IUser";
 import { IError } from "../../types/IError";
 
 export interface AppHeaderProps {
-  user: IUser["user"],
+  user: IUser["user"] | null,
   setUser: IUser["setUser"],
   setErrors: IError["setErrors"],
   apiHandler: ApiHandler,

@@ -1,6 +1,7 @@
 import { IReadingList } from '../../types/IReadingList';
 import { IApiResponse } from '../../types/IApiResponse';
 import { IGoogleBooksQuery } from '../../types/IGoogleBooksQuery';
+import { IBook } from '../../types/IBook';
 
 export default class MockApiHandler {
   data: any;
@@ -13,7 +14,11 @@ export default class MockApiHandler {
     return Promise.resolve(this.data);
   }
 
-  async post(path: string, data: IReadingList): Promise<IApiResponse["readingList"]> {
+  async post(path: string, data: IReadingList["readingList"]): Promise<IApiResponse["readingList"]> {
+    return Promise.resolve(this.data);
+  }
+
+  async put(path: string, data: IBook): Promise<IApiResponse["readingList"]> {
     return Promise.resolve(this.data);
   }
 

@@ -4,7 +4,7 @@ import { Card, CardGroup } from "react-bootstrap";
 import SaveBook from "../save_book/SaveBook";
 import "./BookCard.css";
 
-const BookCard: React.FC<BookCardProps> = ({ book, apiHandler, authenticated }) => {
+const BookCard: React.FC<BookCardProps> = ({ book, apiHandler, readingLists, setReadingLists, authenticated }) => {
   const { title, authors, image } = book;
   return (
     <CardGroup className="book-card-group">
@@ -23,6 +23,8 @@ const BookCard: React.FC<BookCardProps> = ({ book, apiHandler, authenticated }) 
               authors: authors,
               image: image
             }}
+            readingLists={readingLists}
+            setReadingLists={setReadingLists}
             apiHandler={apiHandler}
           />}
       </Card>

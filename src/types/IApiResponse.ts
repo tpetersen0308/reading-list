@@ -10,7 +10,7 @@ export interface IApiResponse {
     errors?: IError["errors"],
   },
   readingList: {
-    data?: IReadingList,
+    data?: IReadingList["readingList"],
     user?: IUser["user"],
     error?: IBanner
   }

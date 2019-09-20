@@ -60,10 +60,11 @@ const SearchPage: React.FC<SearchPageProps> = (props: SearchPageProps) => {
   const formatSearchResults = (items: IGoogleBook[]): IBooksList => {
     return {
       books: items.map(item => {
+        const { title, authors, imageLinks } = item.volumeInfo;
         return {
-          title: item.volumeInfo.title,
-          authors: item.volumeInfo.authors,
-          image: item.volumeInfo.imageLinks.thumbnail
+          title: title,
+          authors: authors,
+          image: imageLinks ? imageLinks.thumbnail : undefined
         };
       })
     };

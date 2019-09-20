@@ -6,11 +6,12 @@ import AppHeader from "./components/header/AppHeader";
 import { currentUser } from "./utilities/userSession";
 import ErrorsList from "./components/errors_list/ErrorsList";
 import { IError } from "./types/IError";
+import { IUser } from "./types/IUser";
 
 const apiHandler: ApiHandler = new ApiHandler();
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<{ avatar: string } | null>(currentUser());
+  const [user, setUser] = useState<IUser["user"] | null>(currentUser());
   const [errors, setErrors] = useState<IError["errors"] | null>(null);
 
   return (
