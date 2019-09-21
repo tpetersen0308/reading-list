@@ -4,7 +4,7 @@ import { Card, CardGroup } from "react-bootstrap";
 import SaveBook from "../save_book/SaveBook";
 import "./BookCard.css";
 
-const BookCard: React.FC<BookCardProps> = ({ book, apiHandler, readingLists, setReadingLists, authenticated }) => {
+const BookCard: React.FC<BookCardProps> = ({ book, user, setUser, apiHandler, searchMode }) => {
   const { title, authors, image } = book;
   return (
     <CardGroup className="book-card-group">
@@ -16,17 +16,20 @@ const BookCard: React.FC<BookCardProps> = ({ book, apiHandler, readingLists, set
         <Card.Text>
           By: {authors.join(", ")}
         </Card.Text>
-        {authenticated &&
+        {book.dateCreated &&
+          <Card.Text>Saved on: {new Date(book.dateCreated).toDateString()}.</Card.Text>}
+        {(user && searchMode) ?
           <SaveBook
             book={{
               title: title,
               authors: authors,
               image: image
             }}
-            readingLists={readingLists}
-            setReadingLists={setReadingLists}
+            user={user}
+            setUser={setUser}
             apiHandler={apiHandler}
-          />}
+          />
+          : <></>}
       </Card>
     </CardGroup>
   )

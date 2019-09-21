@@ -23,7 +23,7 @@ describe("SearchPage", () => {
     };
 
     const apiHandler: MockApiHandler = new MockApiHandler(data);
-    const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} />);
+    const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} user={null} setUser={jest.fn()} />);
     const input = getByLabelText(/title/i) as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: "test book 1" } });
@@ -52,7 +52,7 @@ describe("SearchPage", () => {
     };
 
     const apiHandler: MockApiHandler = new MockApiHandler(data);
-    const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} />);
+    const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} user={null} setUser={jest.fn()} />);
     const input = getByLabelText(/author/i) as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: "some author" } });
@@ -75,7 +75,7 @@ describe("SearchPage", () => {
     };
 
     const apiHandler: MockApiHandler = new MockApiHandler(error);
-    const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} />);
+    const { getByText, getByLabelText } = render(<SearchPage apiHandler={apiHandler} user={null} setUser={jest.fn()} />);
     const input = getByLabelText(/title/i) as HTMLInputElement;
     fireEvent.change(input, { target: { value: "test book 1" } });
     fireEvent.click(getByText("Search"));
@@ -87,7 +87,7 @@ describe("SearchPage", () => {
 
   it("does not allow empty searches", () => {
     const apiHandler: MockApiHandler = new MockApiHandler({});
-    const { getByText } = render(<SearchPage apiHandler={apiHandler} />);
+    const { getByText } = render(<SearchPage apiHandler={apiHandler} user={null} setUser={jest.fn()} />);
     fireEvent.click(getByText("Search"));
 
     getByText(/you must include a search term/i);

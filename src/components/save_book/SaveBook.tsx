@@ -8,7 +8,8 @@ import { IEvent } from "../../types/IEvent";
 import "./SaveBook.css";
 import { IReadingList } from "../../types/IReadingList";
 
-const SaveBook: React.FC<SaveBookProps> = ({ book, readingLists, setReadingLists, apiHandler }) => {
+const SaveBook: React.FC<SaveBookProps> = ({ book, user, setUser, apiHandler }) => {
+  const { readingLists } = user;
   const [title, setTitle] = useState<string>("");
   const [success, setSuccess] = useState<IBanner | null>(null);
   const [error, setError] = useState<IBanner | null>(null);
@@ -26,7 +27,8 @@ const SaveBook: React.FC<SaveBookProps> = ({ book, readingLists, setReadingLists
     });
     if (data) {
       const newReadingLists: IReadingList["readingList"][] = readingLists ? [data].concat(readingLists) : [data];
-      setReadingLists(newReadingLists);
+
+      setUser({ ...user, readingLists: newReadingLists });
     }
     return handleResponse(data, error);
   }
@@ -60,10 +62,10 @@ const SaveBook: React.FC<SaveBookProps> = ({ book, readingLists, setReadingLists
           type="text"
           placeholder="New Reading List Title"
           onChange={handleTitleChange} />
-        <Form.Control size="sm" onChange={handleUpdate} className="list-title-select" as="select">
-          <option disabled selected>Select Existing</option>
+        <Form.Control size="sm" onChange={handleUpdate} defaultValue="default" className="list-title-select" as="select">
+          <option disabled value="default">Select Existing</option>
           {readingLists && readingLists.map(r => {
-            return <option value={r.readingListId} >{r.title}</option>
+            return <option key={r.title} value={r.readingListId} >{r.title}</option>
           })}
         </Form.Control>
       </Form.Group>

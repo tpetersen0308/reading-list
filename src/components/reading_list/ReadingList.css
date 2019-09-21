@@ -1,0 +1,19 @@
+.reading-list {
+  max-width: 40em;
+  margin: auto;
+}
+
+#reading-list-title {
+  border-bottom: 1px lightgray solid;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#home-link {
+  float: left;
+  padding-left: 1.5em;
+}
+
+#reading-list-page {
+  padding-top: 1.5em;
+}

@@ -1,12 +1,12 @@
-#logout {
-  float: right;
+#logout-button {
+  float: left;
   font-size: medium; 
 }
 
 .avatar {
   float: right;
-  width: 30px;
-  height: 30px;
+  width: 1.25em;
+  height: 1.25em;
   border-radius: 50%;
   object-fit: contain;
 }
@@ -15,10 +15,21 @@
   float: right;
   position: absolute;
   z-index: 20;
-  margin-top: 20px;
-  width: 120px;
-  margin-left: -80px;
-  padding: 5px;
+  margin-top: 2em;
+  padding: 0.5em;
   box-shadow: 0px 3px 6px #e6e6e6;
   background-color: white;
+}
+
+.reading-list-menu {
+  font-size: medium;
+  padding-top: 0.5em;
+  margin: 0.5em;
+}
+
+.reading-list-link {
+  display: block;
+  border-top: 1px lightgray solid;
+  margin: 0.5em;
+  padding-top: 0.5em;
 }

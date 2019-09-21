@@ -3,6 +3,8 @@ import SaveBook from "./SaveBook";
 import { render, cleanup, fireEvent, wait } from "@testing-library/react";
 import MockApiHandler from "../../utilities/api_handler/MockApiHandler";
 import { IBook } from "../../types/IBook";
+import { IUser } from "../../types/IUser";
+import { IReadingList } from "../../types/IReadingList";
 
 describe("SaveBook", () => {
   afterEach(cleanup);
@@ -13,6 +15,11 @@ describe("SaveBook", () => {
       authors: ["test author"],
       image: "test image"
     };
+
+    const user: IUser["user"] = {
+      avatar: "",
+      readingLists: [],
+    }
 
     const data = {
       data: {
@@ -25,7 +32,7 @@ describe("SaveBook", () => {
 
     const apiHandler: MockApiHandler = new MockApiHandler(data);
 
-    const { getByText, getByPlaceholderText } = render(<SaveBook book={book} apiHandler={apiHandler} readingLists={null} setReadingLists={jest.fn()} />);
+    const { getByText, getByPlaceholderText } = render(<SaveBook book={book} apiHandler={apiHandler} user={user} setUser={jest.fn()} />);
     const input = getByPlaceholderText("New Reading List Title");
 
     fireEvent.change(input, { target: { value: "New Reading List" } });
@@ -43,24 +50,31 @@ describe("SaveBook", () => {
       image: "test image"
     };
 
+    const readingList: IReadingList["readingList"] = {
+      title: "Existing Reading List",
+      readingListId: "reading list id",
+      books: [
+        book,
+        {
+          title: "previously added book",
+          authors: ["previously added book author"],
+          image: "previously added book image"
+        }
+      ]
+    };
+
+    const user: IUser["user"] = {
+      avatar: "",
+      readingLists: [readingList],
+    };
+
     const data = {
-      data: {
-        title: "Existing Reading List",
-        readingListId: "reading list id",
-        books: [
-          book,
-          {
-            title: "previously added book",
-            authors: ["previously added book author"],
-            image: "previously added book image"
-          }
-        ]
-      }
+      data: readingList
     };
 
     const apiHandler: MockApiHandler = new MockApiHandler(data);
 
-    const { getByText } = render(<SaveBook book={book} apiHandler={apiHandler} readingLists={[data.data]} setReadingLists={jest.fn()} />);
+    const { getByText } = render(<SaveBook book={book} apiHandler={apiHandler} user={user} setUser={jest.fn()} />);
 
     fireEvent.click(getByText("Select Existing"));
 
@@ -76,6 +90,11 @@ describe("SaveBook", () => {
       image: "test image"
     };
 
+    const user: IUser["user"] = {
+      avatar: "",
+      readingLists: [],
+    }
+
     const data = {
       error: {
         message: "test error message"
@@ -84,7 +103,7 @@ describe("SaveBook", () => {
 
     const apiHandler: MockApiHandler = new MockApiHandler(data);
 
-    const { getByText, getByPlaceholderText } = render(<SaveBook book={book} apiHandler={apiHandler} readingLists={null} setReadingLists={jest.fn()} />);
+    const { getByText, getByPlaceholderText } = render(<SaveBook book={book} apiHandler={apiHandler} user={user} setUser={jest.fn()} />);
     const input = getByPlaceholderText("New Reading List Title");
 
     fireEvent.change(input, { target: { value: "New Reading List" } });

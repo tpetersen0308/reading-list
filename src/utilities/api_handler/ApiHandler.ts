@@ -11,10 +11,10 @@ export default class ApiHandler {
       withCredentials: true
     })
       .then(response => {
-        return response.data
+        return response;
       })
       .catch(error => {
-        return error.message;
+        return { error: { message: error.message } };
       });
   }
 

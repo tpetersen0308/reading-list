@@ -16,13 +16,36 @@ describe("BookCard", () => {
         image: "test image",
       },
       apiHandler: apiHandler,
-      readingLists: null,
-      setReadingLists: jest.fn(),
-      authenticated: true
+      user: {
+        avatar: "",
+        readingLists: []
+      },
+      setUser: jest.fn(),
+      searchMode: true
     };
 
     const { getByPlaceholderText } = render(<BookCard {...book} />);
 
     getByPlaceholderText("New Reading List Title");
   });
+
+  it("displays the date added when viewed in a reading list", () => {
+    const apiHandler: MockApiHandler = new MockApiHandler({});
+    const book: BookCardProps = {
+      book: {
+        title: "test book title",
+        authors: ["test author"],
+        image: "test image",
+        dateCreated: "2019-08-20T17:29:28.566306"
+      },
+      apiHandler: apiHandler,
+      user: null,
+      setUser: jest.fn(),
+      searchMode: false
+    };
+
+    const { getByText } = render(<BookCard {...book} />);
+
+    getByText("Saved on: Tue Aug 20 2019.");
+  })
 })

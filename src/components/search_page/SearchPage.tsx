@@ -11,7 +11,7 @@ import { IApiResponse } from "../../types/IApiResponse";
 import { IGoogleBook } from "../../types/IGoogleBook";
 import { IEvent } from "../../types/IEvent";
 
-const SearchPage: React.FC<SearchPageProps> = (props: SearchPageProps) => {
+const SearchPage: React.FC<SearchPageProps> = ({ user, setUser, apiHandler }) => {
   const [searchTerms, setSearchTerms] = useState<{ title: string, author: string }>({ title: "", author: "" });
   const [errors, setErrors] = useState<IError["errors"] | null>(null);
   const [searchResults, setSearchResults] = useState<IBooksList | null>(null);
@@ -46,7 +46,7 @@ const SearchPage: React.FC<SearchPageProps> = (props: SearchPageProps) => {
   }
 
   const fetchBooks = async (): Promise<IApiResponse["googleBooks"]> => {
-    const { items, errors } = await props.apiHandler.getBooks(searchTerms);
+    const { items, errors } = await apiHandler.getBooks(searchTerms);
     if (items) {
       setSearchResults(formatSearchResults(items))
       setErrors(null);
@@ -74,7 +74,7 @@ const SearchPage: React.FC<SearchPageProps> = (props: SearchPageProps) => {
     <div id="search-page">
       {errors && <ErrorsList errors={errors} />}
       <Search submit={handleSubmit} handleTitleChange={handleTitleChange} handleAuthorChange={handleAuthorChange} />
-      {searchResults && <BooksList {...searchResults} apiHandler={props.apiHandler} />}
+      {searchResults && <BooksList {...searchResults} user={user} setUser={setUser} apiHandler={apiHandler} searchMode={true} />}
     </div>
   )
 }

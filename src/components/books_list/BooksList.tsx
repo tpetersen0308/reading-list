@@ -1,23 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BooksListProps } from "./BooksListProps";
-import BookCard from "../book/BookCard";
-import { currentUser, authenticated } from "../../utilities/userSession";
+import BookCard from "../book_card/BookCard";
 import "./BooksList.css";
-import { IReadingList } from '../../types/IReadingList';
-import { IUser } from '../../types/IUser';
 
-const BooksList: React.FC<BooksListProps> = ({ books, apiHandler }) => {
-  const user: IUser["user"] | null = currentUser();
-  const [readingLists, setReadingLists] = useState<IReadingList["readingList"][] | null>(user && user.readingLists);
+const BooksList: React.FC<BooksListProps> = ({ books, user, setUser, apiHandler, searchMode }) => {
   return (
     <div className="books-list">
       {books.map((book, i) => <div key={book.title + i}>
         <BookCard
           book={book}
+          user={user}
+          setUser={setUser}
           apiHandler={apiHandler}
-          readingLists={readingLists}
-          setReadingLists={setReadingLists}
-          authenticated={authenticated()}
+          searchMode={searchMode}
         />
       </div>)}
     </div>

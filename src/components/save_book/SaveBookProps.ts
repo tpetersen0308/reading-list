@@ -1,10 +1,10 @@
 import ApiHandler from "../../utilities/api_handler/ApiHandler";
 import { IBook } from "../../types/IBook";
-import { IReadingList } from "../../types/IReadingList";
+import { IUser } from "../../types/IUser";
 
 export interface SaveBookProps {
   book: IBook,
   apiHandler: ApiHandler,
-  readingLists: IReadingList["readingList"][] | null,
-  setReadingLists: IReadingList["setReadingLists"]
+  user: IUser["user"],
+  setUser: IUser["setUser"]
 }
