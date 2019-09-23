@@ -6,6 +6,8 @@ import BooksList from "../books_list/BooksList";
 import "./ReadingList.css";
 import Banner from "../banner/Banner";
 import { ReadingListProps } from "./ReadingListProps";
+import { IEvent } from "../../types/IEvent";
+import { IBook } from "../../types/IBook";
 
 const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, match }) => {
   const [readingList, setReadingList] = useState<IReadingList["readingList"] | null>(null);
@@ -27,6 +29,29 @@ const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, ma
     getReadingList();
   }, [apiHandler, readingListId]);
 
+  const handleUpdate = async (event: IEvent["changeEvent"], bookId: string): Promise<IApiResponse["readingList"]> => {
+    const { data, error } = await apiHandler.patch(`/readinglist/${readingListId}`, {
+      bookId: bookId,
+      ranking: event.target.value
+    });
+    if (data) {
+      setReadingList(data);
+      setError(null);
+    } else if (error) {
+      setError({ type: "error", message: error.message });
+    }
+
+    return { data };
+  }
+
+  const sortBooks = (readingList: IReadingList["readingList"]): IBook[] => {
+    return readingList.books.sort((a, b) => {
+      if (a.ranking && b.ranking) {
+        return a.ranking - b.ranking;
+      };
+      return 0;
+    })
+  }
 
   return (
     <div id="reading-list-page">
@@ -38,7 +63,13 @@ const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, ma
             <h2 id="reading-list-title">
               {readingList.title}:
           </h2>
-            <BooksList user={user} setUser={setUser} apiHandler={apiHandler} books={readingList.books} searchMode={false} />
+            <BooksList
+              user={user}
+              setUser={setUser}
+              apiHandler={apiHandler}
+              books={sortBooks(readingList)}
+              searchMode={false}
+              handleUpdate={handleUpdate} />
           </div>}
       </div>
     </div>

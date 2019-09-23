@@ -42,6 +42,18 @@ export default class ApiHandler {
       })
   }
 
+  async patch(path: string, data: { bookId: string, ranking: string }): Promise<IApiResponse["readingList"]> {
+    return axios.patch(config.API_URL + path, data, {
+      withCredentials: true
+    })
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        return { error: { message: error.message } };
+      })
+  }
+
   async getUser(tokenId: string): Promise<IApiResponse["readingList"]> {
     return axios.post(config.GOOGLE_AUTH_CALLBACK_URL, { tokenId: tokenId }, {
       withCredentials: true,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import SearchPage from "./components/search_page/SearchPage";
 import ApiHandler from "./utilities/api_handler/ApiHandler";
@@ -13,6 +13,10 @@ import ReadingList from "./components/reading_list/ReadingList";
 const App: React.FC<AppProps> = ({ user, apiHandler }) => {
   const [currentUser, setCurrentUser] = useState<IUser["user"] | null>(user);
   const [errors, setErrors] = useState<IError["errors"] | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(currentUser));
+  }, [currentUser]);
 
   return (
     <div className="App">

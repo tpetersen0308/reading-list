@@ -22,6 +22,10 @@ export default class MockApiHandler {
     return Promise.resolve(this.data);
   }
 
+  async patch(path: string, data: { bookId: string, ranking: string }): Promise<IApiResponse["readingList"]> {
+    return Promise.resolve(this.data);
+  }
+
   async getBooks(searchTerms: IGoogleBooksQuery): Promise<IApiResponse["googleBooks"]> {
     return Promise.resolve(this.data);
   }

@@ -1,5 +1,8 @@
 .books-list {
   overflow-y: scroll;
-  height: 100vh;
+  top: 4em;
+  left: 0em;
+  right: 0em;
+  bottom: 0em;
   padding-top: 1.5em;
 }
