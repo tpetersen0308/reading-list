@@ -4,5 +4,6 @@ export interface IBook {
   image?: string,
   dateCreated?: string,
   bookId?: string,
+  readingListId?: string,
   ranking?: number
 }

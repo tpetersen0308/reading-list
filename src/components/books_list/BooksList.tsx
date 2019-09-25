@@ -5,7 +5,7 @@ import "./BooksList.css";
 import SaveBook from '../save_book/SaveBook';
 import EditBook from '../edit_book/EditBook';
 
-const BooksList: React.FC<BooksListProps> = ({ books, user, setUser, apiHandler, searchMode, handleUpdate }) => {
+const BooksList: React.FC<BooksListProps> = ({ books, user, setUser, setReadingList, apiHandler, searchMode, handleUpdate }) => {
   return (
     <div className="books-list">
       {books.map((book, i) => {
@@ -22,7 +22,13 @@ const BooksList: React.FC<BooksListProps> = ({ books, user, setUser, apiHandler,
               />
               : <></>}
             {(user && handleUpdate && book.bookId) ?
-              <EditBook bookId={book.bookId} listLength={books.length} handleChange={handleUpdate} />
+              <EditBook
+                setReadingList={setReadingList}
+                readingListId={book.readingListId}
+                bookId={book.bookId}
+                listLength={books.length}
+                handleChange={handleUpdate}
+                apiHandler={apiHandler} />
               : <></>
             }
           </BookCard>

@@ -2,12 +2,14 @@ import React from "react";
 import { cleanup, render } from "@testing-library/react";
 import MockApiHandler from "../../utilities/api_handler/MockApiHandler";
 import BooksList from "./BooksList";
+import { IBooksList } from "../../types/IBooksList";
+import { BooksListProps } from "./BooksListProps";
 
 describe("BooksList", () => {
   afterEach(cleanup);
 
   it("renders books with save menu when a user is logged in and in search mode", () => {
-    const booksListProps = {
+    const booksListProps: BooksListProps = {
       books: [
         {
           title: "test title",
@@ -20,18 +22,18 @@ describe("BooksList", () => {
         readingLists: []
       },
       setUser: jest.fn(),
+      setReadingList: jest.fn(),
       apiHandler: new MockApiHandler({}),
       searchMode: true,
     };
 
     const { getByText } = render(<BooksList {...booksListProps} />);
 
-    getByText("Select Existing");
-    getByText("Add");
+    getByText(/Select Existing/i);
   });
 
   it("renders books with edit form when a user is logged in and there are edit props", () => {
-    const booksListProps = {
+    const booksListProps: BooksListProps = {
       books: [
         {
           title: "test title",
@@ -52,6 +54,6 @@ describe("BooksList", () => {
 
     const { getByText } = render(<BooksList {...booksListProps} />);
 
-    getByText("Change Ranking");
+    getByText(/Change Ranking/i);
   });
 });

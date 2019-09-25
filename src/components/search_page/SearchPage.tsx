@@ -8,8 +8,8 @@ import "./SearchPage.css";
 import { IBooksList } from "../../types/IBooksList";
 import { IError } from "../../types/IError";
 import { IApiResponse } from "../../types/IApiResponse";
-import { IGoogleBook } from "../../types/IGoogleBook";
 import { IEvent } from "../../types/IEvent";
+import { formatSearchResults } from "../../utilities/helpers";
 
 const SearchPage: React.FC<SearchPageProps> = ({ user, setUser, apiHandler }) => {
   const [searchTerms, setSearchTerms] = useState<{ title: string, author: string }>({ title: "", author: "" });
@@ -55,19 +55,6 @@ const SearchPage: React.FC<SearchPageProps> = ({ user, setUser, apiHandler }) =>
     }
 
     return { items: items };
-  }
-
-  const formatSearchResults = (items: IGoogleBook[]): IBooksList => {
-    return {
-      books: items.map(item => {
-        const { title, authors, imageLinks } = item.volumeInfo;
-        return {
-          title: title,
-          authors: authors,
-          image: imageLinks ? imageLinks.thumbnail : undefined
-        };
-      })
-    };
   }
 
   return (

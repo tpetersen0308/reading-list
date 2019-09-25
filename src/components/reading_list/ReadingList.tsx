@@ -7,7 +7,7 @@ import "./ReadingList.css";
 import Banner from "../banner/Banner";
 import { ReadingListProps } from "./ReadingListProps";
 import { IEvent } from "../../types/IEvent";
-import { IBook } from "../../types/IBook";
+import { sortBooks } from "../../utilities/helpers";
 
 const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, match }) => {
   const [readingList, setReadingList] = useState<IReadingList["readingList"] | null>(null);
@@ -44,15 +44,6 @@ const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, ma
     return { data };
   }
 
-  const sortBooks = (readingList: IReadingList["readingList"]): IBook[] => {
-    return readingList.books.sort((a, b) => {
-      if (a.ranking && b.ranking) {
-        return a.ranking - b.ranking;
-      };
-      return 0;
-    })
-  }
-
   return (
     <div id="reading-list-page">
       <a id="home-link" href="/">Back to Search</a>
@@ -66,6 +57,7 @@ const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, ma
             <BooksList
               user={user}
               setUser={setUser}
+              setReadingList={setReadingList}
               apiHandler={apiHandler}
               books={sortBooks(readingList)}
               searchMode={false}

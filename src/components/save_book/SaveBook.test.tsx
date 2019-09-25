@@ -5,6 +5,7 @@ import MockApiHandler from "../../utilities/api_handler/MockApiHandler";
 import { IBook } from "../../types/IBook";
 import { IUser } from "../../types/IUser";
 import { IReadingList } from "../../types/IReadingList";
+import { IApiResponse } from "../../types/IApiResponse";
 
 describe("SaveBook", () => {
   afterEach(cleanup);
@@ -21,7 +22,7 @@ describe("SaveBook", () => {
       readingLists: [],
     }
 
-    const data = {
+    const data: IApiResponse["readingList"] = {
       data: {
         title: "New Reading List",
         books: [
@@ -33,7 +34,7 @@ describe("SaveBook", () => {
     const apiHandler: MockApiHandler = new MockApiHandler(data);
 
     const { getByText, getByPlaceholderText } = render(<SaveBook book={book} apiHandler={apiHandler} user={user} setUser={jest.fn()} />);
-    const input = getByPlaceholderText("New Reading List Title");
+    const input = getByPlaceholderText(/New Reading List Title/i);
 
     fireEvent.change(input, { target: { value: "New Reading List" } });
     fireEvent.click(getByText("Add"));
@@ -68,7 +69,7 @@ describe("SaveBook", () => {
       readingLists: [readingList],
     };
 
-    const data = {
+    const data: IApiResponse["readingList"] = {
       data: readingList
     };
 
@@ -76,10 +77,10 @@ describe("SaveBook", () => {
 
     const { getByText } = render(<SaveBook book={book} apiHandler={apiHandler} user={user} setUser={jest.fn()} />);
 
-    fireEvent.click(getByText("Select Existing"));
+    fireEvent.click(getByText(/Select Existing/i));
 
     await wait(() => {
-      getByText("Existing Reading List");
+      getByText(/Existing Reading List/i);
     });
   });
 
@@ -95,7 +96,7 @@ describe("SaveBook", () => {
       readingLists: [],
     }
 
-    const data = {
+    const data: IApiResponse["readingList"] = {
       error: {
         message: "test error message"
       }
@@ -104,13 +105,13 @@ describe("SaveBook", () => {
     const apiHandler: MockApiHandler = new MockApiHandler(data);
 
     const { getByText, getByPlaceholderText } = render(<SaveBook book={book} apiHandler={apiHandler} user={user} setUser={jest.fn()} />);
-    const input = getByPlaceholderText("New Reading List Title");
+    const input = getByPlaceholderText(/New Reading List Title/i);
 
-    fireEvent.change(input, { target: { value: "New Reading List" } });
+    fireEvent.change(input, { target: { value: "" } });
     fireEvent.click(getByText("Add"));
 
     await wait(() => {
-      getByText(/test error message/i);
+      getByText(/you must enter a list title./i);
     });
   })
 });

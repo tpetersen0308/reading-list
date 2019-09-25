@@ -21,7 +21,7 @@ const SaveBook: React.FC<SaveBookProps> = ({ book, user, setUser, apiHandler }) 
 
   const handleCreate = async (event: IEvent["buttonEvent"]): Promise<IApiResponse["readingList"]> => {
     event.preventDefault();
-    const { data, error } = await apiHandler.post("/readinglist", {
+    const { data } = await apiHandler.post("/readinglist", {
       title: title,
       books: [book]
     });
@@ -30,7 +30,7 @@ const SaveBook: React.FC<SaveBookProps> = ({ book, user, setUser, apiHandler }) 
 
       setUser({ ...user, readingLists: newReadingLists });
     }
-    return handleResponse(data, error);
+    return handleResponse(data, { message: "You must enter a list title." });
   }
 
   const handleUpdate = async (event: IEvent["changeEvent"]): Promise<IApiResponse["readingList"]> => {
@@ -50,6 +50,12 @@ const SaveBook: React.FC<SaveBookProps> = ({ book, user, setUser, apiHandler }) 
     return { data };
   }
 
+  const getReadingListOptions = () => {
+    return readingLists && readingLists.map(r => {
+      return <option key={r.title} value={r.readingListId} >{r.title}</option>
+    })
+  }
+
   return (
     <Form className="save-book-form">
       <Form.Group>
@@ -64,9 +70,7 @@ const SaveBook: React.FC<SaveBookProps> = ({ book, user, setUser, apiHandler }) 
           onChange={handleTitleChange} />
         <Form.Control size="sm" onChange={handleUpdate} defaultValue="default" className="list-title-select" as="select">
           <option disabled value="default">Select Existing</option>
-          {readingLists && readingLists.map(r => {
-            return <option key={r.title} value={r.readingListId} >{r.title}</option>
-          })}
+          {getReadingListOptions()}
         </Form.Control>
       </Form.Group>
       <Button size="sm" type="submit" onClick={handleCreate}>Add</Button>

@@ -26,6 +26,16 @@ export default class MockApiHandler {
     return Promise.resolve(this.data);
   }
 
+  async delete(path: string): Promise<IApiResponse["readingList"]> {
+    let returnData;
+    if (this.data.data) {
+      returnData = { ...this.data, data: { books: [this.data.data.books[0]] } };
+    } else {
+      returnData = this.data;
+    }
+    return Promise.resolve(returnData);
+  }
+
   async getBooks(searchTerms: IGoogleBooksQuery): Promise<IApiResponse["googleBooks"]> {
     return Promise.resolve(this.data);
   }

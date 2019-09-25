@@ -23,10 +23,4 @@ const BookCard: React.FC<BookCardProps> = ({ book, children }) => {
   )
 }
 
-BookCard.defaultProps = {
-  book: {
-    title: "Title Unavailable",
-    authors: ["Author Unavailable"],
-  }
-}
 export default BookCard;

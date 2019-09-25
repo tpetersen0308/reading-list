@@ -17,9 +17,8 @@ describe("UserMenu", () => {
 
     const { getByText, getByAltText } = render(<UserMenu user={user} apiHandler={apiHandler} setUser={jest.fn()} />);
 
-    fireEvent.click(getByAltText("avatar"));
-    await wait(() => getByText("Log Out"));
-    getByText("Log Out");
+    fireEvent.click(getByAltText(/avatar/i));
+    await wait(() => getByText(/Log Out/i));
   });
 
   it("displays reading lists when user clicks their avatar", async () => {
@@ -41,9 +40,9 @@ describe("UserMenu", () => {
 
     const { getByText, getByAltText } = render(<UserMenu user={user} apiHandler={apiHandler} setUser={jest.fn()} />);
 
-    fireEvent.click(getByAltText("avatar"));
-    await wait(() => getByText("List 1"));
-    getByText("List 2");
+    fireEvent.click(getByAltText(/avatar/i));
+    await wait(() => getByText(/List 1/i));
+    getByText(/List 2/i);
   });
 
   it("displays default message when user has no reading lists.", async () => {
@@ -54,7 +53,7 @@ describe("UserMenu", () => {
 
     const { getByText, getByAltText } = render(<UserMenu user={user} apiHandler={apiHandler} setUser={jest.fn()} />);
 
-    fireEvent.click(getByAltText("avatar"));
-    await wait(() => getByText("You do not have any reading lists."));
+    fireEvent.click(getByAltText(/avatar/i));
+    await wait(() => getByText(/You do not have any reading lists./i));
   });
 })
