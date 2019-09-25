@@ -9,7 +9,7 @@ import { ReadingListProps } from "./ReadingListProps";
 import { IEvent } from "../../types/IEvent";
 import { sortBooks } from "../../utilities/helpers";
 
-const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, match }) => {
+const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, match, history }) => {
   const [readingList, setReadingList] = useState<IReadingList["readingList"] | null>(null);
   const [error, setError] = useState<IBanner | null>(null);
   const readingListId: string = match.params.guid;
@@ -44,9 +44,24 @@ const ReadingList: React.FC<ReadingListProps> = ({ user, setUser, apiHandler, ma
     return { data };
   }
 
+  const handleDelete = async (event: IEvent["linkEvent"]): Promise<IApiResponse["readingList"]> => {
+    event.preventDefault();
+    const { error } = await apiHandler.delete(`/readinglist/${readingListId}`);
+    if (error) {
+      setError({ type: "error", message: error.message });
+    } else {
+      let readingLists: IReadingList["readingList"][] = user.readingLists
+        .filter(r => r.readingListId !== readingListId);
+      setUser({ ...user, readingLists: readingLists });
+      history.push("/");
+    }
+    return {};
+  }
+
   return (
     <div id="reading-list-page">
-      <a id="home-link" href="/">Back to Search</a>
+      <a id="home-link" href="#">Back to Search</a>
+      <a id="delete-list-link" href="/" onClick={handleDelete}>Delete List</a>
       <div className="reading-list">
         {error && <Banner type="error" message={"Error: " + error.message} />}
         {readingList &&
